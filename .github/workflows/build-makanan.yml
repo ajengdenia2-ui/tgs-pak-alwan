@@ -1,0 +1,25 @@
+name: Build EXE Makanan
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "tugas2.cpp"
+      - ".github/workflows/build-makanan.yml"
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Compile C++
+        run: g++ -std=c++17 tugas2.cpp -o makanan.exe
+
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: file-exe-makanan
+          path: makanan.exe
