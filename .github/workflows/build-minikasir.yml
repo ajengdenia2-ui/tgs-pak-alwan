@@ -1,0 +1,25 @@
+name: Build EXE Tugas 3
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'tugas3.cpp'
+      - '.github/workflows/build-minikasir.yml'
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Ambil kode dari GitHub
+        uses: actions/checkout@v4
+
+      - name: Compile C++
+        run: g++ tugas3.cpp -o tugas3.exe
+
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: file-exe-tugas3
+          path: tugas3.exe
