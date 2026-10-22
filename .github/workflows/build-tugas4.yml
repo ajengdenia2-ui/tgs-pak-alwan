@@ -1,0 +1,25 @@
+name: Build EXE Tugas 4
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'tugas4.cpp'
+      - '.github/workflows/build-tugas4.yml'
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Ambil kode dari GitHub
+        uses: actions/checkout@v4
+
+      - name: Compile C++
+        run: g++ tugas4.cpp -o tugas4.exe
+
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: file-exe-tugas4
+          path: tugas4.exe
