@@ -1,40 +1,26 @@
-name: Run C++ and Export Excel
+name: Build C++ EXE
 
 on:
   workflow_dispatch:
   push:
     paths:
       - "main.cpp"
-      - "data/**"
-      - ".github/workflows/cpp-to-excel.yml"
+      - ".github/workflows/main.yml"
 
 jobs:
-  run-cpp-and-export:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: windows-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install compiler and Python
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y g++
-          pip install openpyxl
+      - name: Compile C++ to EXE
+        shell: cmd
+        run: g++ -std=c++17 main.cpp -o program.exe
 
-      - name: Compile C++ program
-        run: g++ -std=c++17 main.cpp -o program
-
-      - name: Run C++ program
-        run: |
-          mkdir -p output
-          ./program | tee output/hasil.txt
-
-      - name: Convert output to Excel
-        run: python scripts/to_excel.py
-
-      - name: Upload Excel file
+      - name: Upload EXE
         uses: actions/upload-artifact@v4
         with:
-          name: hasil-program-cpp-excel
-          path: output/hasil.xlsx
+          name: program-exe
+          path: program.exe
